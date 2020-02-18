@@ -1,0 +1,31 @@
+node {
+
+try {
+notify('Job Started')
+
+stage('Terraform-Checkout') {
+   sh 'rm -rf terraform_repo'
+   sh 'git clone https://github.com/kalyankkc/terraform_repo.git'
+  }
+
+def terraform_path="terraform_repo/terraform/"
+dir(terraform_path) {
+   stage('Prod Deployment on AWS'){
+   sh label: 'terraform', script: '/bin/terraform  init'
+   sh label: 'terraform', script: '/bin/terraform  apply -input=false -auto-approve'
+   }
+}
+notify('Job Completed')
+}catch(err)
+  notify("Error ${err}")
+  currentBuild.result = 'FAILURE'
+}
+
+def notify(status){
+    emailext (
+	to: "kalyankkc118@.gmail.com",
+	subject: "${status}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+	 body: """<p>${status}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
+	<p>Check console output at <a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a></p>""",
+		)
+	}
