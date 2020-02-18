@@ -15,10 +15,10 @@ dir(terraform_path) {
    }
 }
 
-stage('Downstream Build -- Ansible Deployment')
-{
-     build 'Ansible-Job'
- }
+//stage('Downstream Build -- Ansible Deployment')
+//{
+//     build 'Ansible-Job'
+// }
 
 }
 
