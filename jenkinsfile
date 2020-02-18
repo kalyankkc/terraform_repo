@@ -1,7 +1,6 @@
 node {
 
-try {
-notify('Job Started')
+
 
 stage('Git-Checkout') {
    sh 'rm -rf terraform_repo'
@@ -21,10 +20,6 @@ stage('Downstream Build -- Ansible Deployment')
      build 'Ansible-Job'
  }
 
-notify('Job Completed')
-}catch(err)
-  notify("Error ${err}")
-  currentBuild.result = 'FAILURE'
 }
 
 def notify(status){
