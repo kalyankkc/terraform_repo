@@ -15,6 +15,11 @@ dir(terraform_path) {
    sh label: 'terraform', script: '/bin/terraform  apply -input=false -auto-approve'
    }
 }
+
+stage('Downstream Build -- Ansible Deployment')
+{
+     build 'Ansible-Job'
+ }
 notify('Job Completed')
 }catch(err)
   notify("Error ${err}")
