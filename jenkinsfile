@@ -1,7 +1,5 @@
 node {
 
-
-
 stage('Git-Checkout') {
    sh 'rm -rf terraform_repo'
    sh 'git clone https://github.com/kalyankkc/terraform_repo.git'
